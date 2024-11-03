@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .       # The directory where the Dockerfile is located
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"    # Flask endpoint
+      - "51826:51826"  # HomeKit accessory driver
+    environment:
+      - FLASK_APP=main.py
+    volumes:
+      - .:/app
+    privileged: true    
