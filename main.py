@@ -5,6 +5,12 @@ from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_SENSOR
 from flask import Flask, request, jsonify
 from threading import Thread
+from dotenv import load_dotenv
+import os
+import sys
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize Flask application
 app = Flask(__name__)
@@ -69,7 +75,13 @@ def get_bridge(driver):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format="[%(module)s] %(message)s")
 
-    driver = AccessoryDriver(port=51826)
+    # Retrieve PIN code from .env file
+    pincode = os.getenv('HAP_PIN')
+    if not pincode:
+        logging.error("HAP_PIN not found in .env file. Please set it before running the program.")
+        sys.exit(1)  # Exit if PIN is not set
+
+    driver = AccessoryDriver(port=51826, pincode=pincode.encode())
 
     # Create and add the accessory or bridge to the driver
     accessory_instance = get_accessory(driver)  # Use `get_bridge(driver)` if you want to use a Bridge
