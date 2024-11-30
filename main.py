@@ -30,6 +30,7 @@ class TemperatureSensor(Accessory):
         # Add TemperatureSensor service
         serv_temp = self.add_preload_service('TemperatureSensor')
         self.char_temp = serv_temp.configure_char('CurrentTemperature')
+        self.current_temperature = random.randint(18, 26)  # Initial random temperature
 
     def temperature_changed(self, value):
         """Callback for temperature changes."""
@@ -38,7 +39,11 @@ class TemperatureSensor(Accessory):
     @Accessory.run_at_interval(3)  # Run this method every 3 seconds
     async def run(self):
         """Update the temperature every 3 seconds."""
-        self.char_temp.set_value(random.randint(18, 26))
+        self.char_temp.set_value(self.current_temperature)
+
+    def update_temperature(self, value):
+        """Update the stored temperature."""
+        self.current_temperature = value
 
     def stop(self):
         """Clean up resources when stopping the accessory."""
@@ -52,7 +57,7 @@ def update():
         data = request.get_json()
         temperature = data.get('temperature')
         if temperature is not None and accessory:
-            accessory.char_temp.set_value(temperature)
+            accessory.update_temperature(temperature)  # Update the stored temperature
             return jsonify(success=True), 200
         return jsonify(success=False, error="Temperature value is missing or accessory not initialized"), 400
     except Exception as e:
