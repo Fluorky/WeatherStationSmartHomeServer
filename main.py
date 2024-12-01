@@ -30,7 +30,7 @@ class TemperatureSensor(Accessory):
         # Add TemperatureSensor service
         serv_temp = self.add_preload_service('TemperatureSensor')
         self.char_temp = serv_temp.configure_char('CurrentTemperature')
-        self.current_temperature = random.randint(18, 26)  # Initial random temperature
+        self.current_temperature = 0 # Inital temperature
 
     def temperature_changed(self, value):
         """Callback for temperature changes."""
