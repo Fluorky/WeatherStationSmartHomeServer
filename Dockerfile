@@ -19,5 +19,8 @@ EXPOSE 51826
 # Define environment variable
 ENV FLASK_APP=main.py
 
+# Copy .env to app
+COPY .env /app/.env
+
 # Run app.py when the container launches
 CMD ["python", "main.py"]

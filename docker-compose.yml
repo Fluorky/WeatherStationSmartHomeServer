@@ -6,5 +6,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - FLASK_APP=main.py
+    env_file: 
+      - .env  # Specify the file containing environment variables
     network_mode: "host"   #  Dirrect access to host network
     privileged: true
