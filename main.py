@@ -109,7 +109,7 @@ if __name__ == '__main__':
 
     # Start Flask server in a separate thread without debug mode
     def run_flask_app():
-        app.run(host='0.0.0.0', port=8080, debug=False)  # Disable debug mode
+        app.run(host='127.0.0.1', port=8080, debug=False)  # Disable debug mode
 
     Thread(target=run_flask_app).start()
 
