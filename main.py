@@ -17,6 +17,18 @@ app = Flask(__name__)
 
 # Initialize the global accessory variable
 accessory = None
+random_sensor = None  # Direct reference to the random temperature sensor
+
+def get_cpu_temperature():
+    """Reads the CPU temperature on a Linux system."""
+    try:
+        # Path to the file where the CPU temperature is stored
+        with open('/sys/class/thermal/thermal_zone0/temp', 'r') as f:
+            temp = int(f.read()) / 1000.0  # Convert millikelvins to Celsius
+        return temp
+    except Exception as e:
+        print(f"Error reading CPU temperature: {e}")
+        return None
 
 class TemperatureSensor(Accessory):
     """Implementation of a mock temperature sensor accessory."""
